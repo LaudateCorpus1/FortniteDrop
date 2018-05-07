@@ -1,0 +1,13 @@
+name: FortniteDrop
+version: 0.1
+main: squwid.FortniteDrop
+description: Plugin for events.
+author: Squwid
+link: github.com/Squwid
+commands:
+    drop:
+        usage: /<command> <args> [optional args]
+        description: Use warp Commands.
+    dgo:
+        usage: /<command> <args> [optional args]
+        description: Use warp Commands.
