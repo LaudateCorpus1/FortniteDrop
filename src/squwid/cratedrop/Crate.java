@@ -3,6 +3,7 @@ package squwid.cratedrop;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import squwid.util.ConfigManager;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -12,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Crate {
 
-    private static int startHeight = 100;
+    private int startHeight;
     private int x;
     private int z;
     private int minX;
@@ -28,10 +29,13 @@ public class Crate {
         setMinMax();
         setZ();
         setX();
+        this.startHeight = ConfigManager.getInstance().getStartHeight();
         setLocation(p);
         this.searched = false;
         this.landed = false;
+        this.items = ConfigManager.getInstance().getConfigItems();
     }
+
 
     public void setLanded(boolean landed){
         this.landed = landed;
@@ -42,7 +46,7 @@ public class Crate {
     }
 
     public void setLocation(Player p) {
-        this.dropLoc = new Location(p.getWorld(), (double)x, startHeight, (double)z);
+        this.dropLoc = new Location(p.getWorld(), (double)x, (double)startHeight, (double)z);
     }
 
     public Location getDropLoc(){
@@ -50,19 +54,20 @@ public class Crate {
     }
 
     public void setX(){
-        this.x = ThreadLocalRandom.current().nextInt(minX, maxX + 1);
+        // min then max
+        this.x = ThreadLocalRandom.current().nextInt(this.minX, this.maxX + 1);
     }
 
     public void setZ() {
-        this.z = ThreadLocalRandom.current().nextInt(minZ, maxZ + 1);
+        this.z = ThreadLocalRandom.current().nextInt(this.minZ, this.maxZ + 1);
     }
 
     public void setMinMax(){
         //TODO: this will come from settings file
-        this.minX = -15000;
-        this.minZ = -15000;
-        this.maxX = 15000;
-        this.maxZ = 15000;
+        this.minX = ConfigManager.getInstance().getMinX();
+        this.minZ = ConfigManager.getInstance().getMinZ();
+        this.maxX = ConfigManager.getInstance().getMaxX();
+        this.maxZ = ConfigManager.getInstance().getMaxZ();
     }
 
     public void found() {
